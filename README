@@ -1,0 +1,142 @@
+
+
+The task is to connect N computers with cables that can communicate in both directions and to check if those computers can actually interact with each other. Solution will follow the two instructions shown below:
+
+
+
+1. make A B time
+
+Connect Computer A and Computer B with a cable.
+
+This cable will become unavailable when the value is bigger than time seconds. If the
+
+value equals to time seconds, the cable is still available.
+
+Multiple cables may be connected between aforementioned Computer A and B.
+
+
+
+2. check A B time
+
+Predict if computer A and B can communicate within time seconds with the connected
+
+cable(s). Computer A and B may be connected through other computers. If Computer A and B can communicate, output 'YES'in one string. If they can’t, output 'NO'in one string. The cables that are connected by all the make instructions existing after particular check instruction are not available in time series.
+
+The instructions will be processed in the descending order of input.
+
+Determine if Computer A and B are able to communicate every time there is check
+
+instruction. If they can communicate, please output 'YES'in one string. If not, output 'NO'in
+
+one string.
+
+
+Input
+
+
+Input will be given in the following format from Standard Input:
+
+N Q
+
+S A B time
+
+1 1 1 1
+
+:
+
+S A B time
+
+Q Q Q Q
+
+
+
+1. On the first string, N(2≦N≦20), an integer which shows the number of computers, and
+
+Q(1≦Q≦500), another integer which shows the number of the instructions, will be given
+
+with a half­width break.
+
+
+2. From the second string to the N − th string, you will be given instructions.
+
+1≦A , B ≦N and 1≦time ≦10 are guaranteed.
+
+There are only two kinds of S : make or check.
+
+
+Output
+
+Determine if Computer A and B are able to communicate every time there is check instruction.
+
+If they can communicate, please output 'YES'in one string. If not, output 'NO'in one string.
+
+Also, make sure to insert a line break at the end of the output.
+
+---------------------------------------------------------------
+
+Input Example # 1
+
+3 5
+
+make 1 2 1000
+
+check1 3500
+
+make 3 2 2000
+
+check1 3500
+
+check1 31500
+
+Output Example #1
+
+NO
+
+YES
+
+NO
+
+
+---------------------------------------------------------------
+
+Input Example #2
+
+4 11
+
+make 1 2 2000
+
+make 2 3 3000
+
+make 3 4 2500
+
+check1 41500
+
+check1 32000
+
+check1 32500
+
+
+
+make 1 4 3000
+
+check1 32500
+
+check1 33000
+
+make 2 4 3000
+
+check1 33000
+
+Output Example #2
+
+YES
+
+YES
+
+NO
+
+YES
+
+NO
+
+YES
