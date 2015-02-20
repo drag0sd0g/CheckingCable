@@ -2,23 +2,23 @@ package com.dragos.checkingcable;
 
 public class Command {
 
-    private final String computerA;
-    private final String computerB;
+    private final int computerA;
+    private final int computerB;
     private final Instruction instruction;
     private final double time;
 
-    public Command(String computerA, String computerB, String instruction, double time) {
+    public Command(int computerA, int computerB, String instruction, double time) {
         this.computerA = computerA;
         this.computerB = computerB;
         this.instruction = Instruction.fromString(instruction);
         this.time = time;
     }
 
-    public String getComputerA() {
+    public int getComputerA() {
         return computerA;
     }
 
-    public String getComputerB() {
+    public int getComputerB() {
         return computerB;
     }
 

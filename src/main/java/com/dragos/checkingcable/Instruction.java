@@ -19,6 +19,6 @@ public enum Instruction {
                 return value;
             }
         }
-        throw new RuntimeException("cannot interpret instruction " + instruction);
+        throw new RuntimeException("cannot interpret instruction " + instruction); //fail fast
     }
 }
