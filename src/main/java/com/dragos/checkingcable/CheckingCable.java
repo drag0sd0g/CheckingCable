@@ -1,9 +1,6 @@
 package com.dragos.checkingcable;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+        import java.util.*;
 
 public class CheckingCable {
 
@@ -28,7 +25,7 @@ public class CheckingCable {
         }
         this.numberOfCommands = numberOfCommands;
 
-        if (numberOfCommands != commandList.size()) {
+        if (this.numberOfCommands != commandList.size()) {
             throw new RuntimeException("size of the command list doesn't match the numberOfCommands parameter");
         }
         this.commandList = Collections.unmodifiableList(commandList);
@@ -40,13 +37,32 @@ public class CheckingCable {
         return Collections.<String>emptyList();
     }
 
-    private void buildVertexMap(){
+    private void buildVertexMap() {
         for (int i = 0; i < numberOfComputers; i++) {
             vertexMap.put(i + 1, new Vertex(String.valueOf(i)));
         }
     }
 
-    private void processCommands(){
+    private void computePaths(Vertex vertexOrigin) { //Dijkstra
+        vertexOrigin.setMinDistance(0);
+        PriorityQueue<Vertex> vertexQueue = new PriorityQueue<>();
+        vertexQueue.add(vertexOrigin); //add source node
+        while (!vertexQueue.isEmpty()) {
+            Vertex currentVertex = vertexQueue.poll();
+            for (Edge edge : currentVertex.getOutboundEdges()) {
+                Vertex currentTargetVertex = edge.getTarget();
+                double distanceThroughCurrentVertex = currentVertex.getMinDistance() + edge.getWeight();
+                if (distanceThroughCurrentVertex < currentTargetVertex.getMinDistance()) {
+                    vertexQueue.remove(currentTargetVertex);
+                    currentTargetVertex.setMinDistance(distanceThroughCurrentVertex);
+                    currentTargetVertex.setPrevious(currentVertex);
+                    vertexQueue.add(currentTargetVertex);
+                }
+            }
+        }
+    }
+
+    private void processCommands() {
         for (Command command : commandList) {
             switch (command.getInstruction()) {
                 case MAKE: {
@@ -66,13 +82,22 @@ public class CheckingCable {
     private void doMakeCommand(Command command) {
         Vertex vertexOrigin = vertexMap.get(command.getComputerA());
         Vertex vertexTarget = vertexMap.get(command.getComputerB());
-        Edge edge = new Edge(vertexOrigin, vertexTarget, command.getTime());
+        Edge edge = new Edge(vertexTarget, command.getTime());
         vertexOrigin.addOutboundEdge(edge);
-        vertexTarget.addInboundEdge(edge);
     }
 
     private void doCheckCommand(Command command) {
-        //TODO
+        Vertex vertexOrigin = vertexMap.get(command.getComputerA());
+        Vertex vertexTarget = vertexMap.get(command.getComputerB());
+
+        computePaths(vertexOrigin);
+
+        List<Vertex> path = new ArrayList<>();
+        for (Vertex vertex = vertexTarget; vertex != null; vertex.getName().equals(vertex.getPrevious()))
+            path.add(vertex);
+        Collections.reverse(path);
+
+        System.out.println(path);
     }
 
     protected Map<Integer, Vertex> getVertexMap() {

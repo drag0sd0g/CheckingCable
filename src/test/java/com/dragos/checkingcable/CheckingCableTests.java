@@ -2,6 +2,7 @@ package com.dragos.checkingcable;
 
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 
@@ -63,8 +64,35 @@ public class CheckingCableTests {
         assertNotNull(vertexMap.get(1));
         assertNotNull(vertexMap.get(2));
         assertEquals(vertexMap.get(1).getOutboundEdges().size(), 1);
-        assertEquals(vertexMap.get(1).getInboundEdges().size(), 0);
         assertEquals(vertexMap.get(2).getOutboundEdges().size(), 0);
-        assertEquals(vertexMap.get(2).getInboundEdges().size(), 1);
+    }
+
+    @Test
+    public void testMultipleMakeCommands(){
+        CheckingCable checkingCable = new CheckingCable(5, 6, Arrays.asList(new Command(1, 2, "make", 5), new Command(2, 3, "make", 9),
+                new Command(1, 3, "make", 8), new Command(1, 4, "make", 1), new Command(4, 5, "make", 1), new Command(5, 3, "make", 1)));
+        checkingCable.go();
+        Map<Integer, Vertex> vertexMap = checkingCable.getVertexMap();
+        assertEquals(vertexMap.size(), 5);
+
+        Vertex vertex1 = vertexMap.get(1);
+        assertNotNull(vertex1);
+        assertEquals(vertex1.getOutboundEdges().size(), 3);
+
+        Vertex vertex2 = vertexMap.get(2);
+        assertNotNull(vertex2);
+        assertEquals(vertex2.getOutboundEdges().size(), 1);
+
+        Vertex vertex3 = vertexMap.get(3);
+        assertNotNull(vertex3);
+        assertEquals(vertex3.getOutboundEdges().size(), 0);
+
+        Vertex vertex4 = vertexMap.get(4);
+        assertNotNull(vertex4);
+        assertEquals(vertex4.getOutboundEdges().size(), 1);
+
+        Vertex vertex5 = vertexMap.get(5);
+        assertNotNull(vertex5);
+        assertEquals(vertex5.getOutboundEdges().size(), 1);
     }
 }

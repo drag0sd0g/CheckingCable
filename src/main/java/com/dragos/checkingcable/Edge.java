@@ -1,26 +1,20 @@
 package com.dragos.checkingcable;
 
 public class Edge {
-    private final Vertex origin;
     private final Vertex target;
-    private final double value;
+    private final double weight;
 
-    public Edge(Vertex origin, Vertex target, double value) {
-        this.origin = origin;
+    public Edge(Vertex target, double weight) {
         this.target = target;
-        this.value = value;
-    }
-
-    public Vertex getOrigin() {
-        return origin;
+        this.weight = weight;
     }
 
     public Vertex getTarget() {
         return target;
     }
 
-    public double getValue() {
-        return value;
+    public double getWeight() {
+        return weight;
     }
 
 }
