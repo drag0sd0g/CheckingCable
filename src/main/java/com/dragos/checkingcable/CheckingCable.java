@@ -1,6 +1,6 @@
 package com.dragos.checkingcable;
 
-        import java.util.*;
+import java.util.*;
 
 public class CheckingCable {
 
@@ -33,18 +33,17 @@ public class CheckingCable {
 
     public List<String> go() {
         buildVertexMap();
-        processCommands();
-        return Collections.<String>emptyList();
+        return processCommands();
     }
 
     private void buildVertexMap() {
         for (int i = 0; i < numberOfComputers; i++) {
-            vertexMap.put(i + 1, new Vertex(String.valueOf(i)));
+            vertexMap.put(i + 1, new Vertex(String.valueOf(i + 1)));
         }
     }
 
     private void computePaths(Vertex vertexOrigin) { //Dijkstra
-        vertexOrigin.setMinDistance(0);
+        vertexOrigin.setMinDistance(0.);
         PriorityQueue<Vertex> vertexQueue = new PriorityQueue<>();
         vertexQueue.add(vertexOrigin); //add source node
         while (!vertexQueue.isEmpty()) {
@@ -62,7 +61,8 @@ public class CheckingCable {
         }
     }
 
-    private void processCommands() {
+    private List<String> processCommands() {
+        List<String> outputCollector = new ArrayList<>();
         for (Command command : commandList) {
             switch (command.getInstruction()) {
                 case MAKE: {
@@ -70,13 +70,14 @@ public class CheckingCable {
                     break;
                 }
                 case CHECK: {
-                    doCheckCommand(command);
+                    doCheckCommand(command, outputCollector);
                     break;
                 }
                 default:
                     throw new RuntimeException("this line should be unreachable");
             }
         }
+        return outputCollector;
     }
 
     private void doMakeCommand(Command command) {
@@ -86,18 +87,18 @@ public class CheckingCable {
         vertexOrigin.addOutboundEdge(edge);
     }
 
-    private void doCheckCommand(Command command) {
+    private void doCheckCommand(Command command, List<String> outputCollector) {
         Vertex vertexOrigin = vertexMap.get(command.getComputerA());
         Vertex vertexTarget = vertexMap.get(command.getComputerB());
 
         computePaths(vertexOrigin);
 
         List<Vertex> path = new ArrayList<>();
-        for (Vertex vertex = vertexTarget; vertex != null; vertex.getName().equals(vertex.getPrevious()))
+        for (Vertex vertex = vertexTarget; vertex != null; vertex = vertex.getPrevious()) {
             path.add(vertex);
-        Collections.reverse(path);
+        }
 
-        System.out.println(path);
+        outputCollector.add((path.contains(vertexTarget) &&  path.contains(vertexOrigin)) ? "YES" : "NO");
     }
 
     protected Map<Integer, Vertex> getVertexMap() {

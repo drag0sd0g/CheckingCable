@@ -46,4 +46,11 @@ public class Vertex implements Comparable<Vertex> {
     public int compareTo(Vertex other) {
         return Double.compare(this.minDistance, other.getMinDistance());
     }
+
+    @Override
+    public String toString() {
+        return "Vertex{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

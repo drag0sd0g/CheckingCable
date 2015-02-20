@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -46,7 +47,7 @@ public class CheckingCableTests {
     }
 
     @Test
-    public void testBuildingOfVertexMap(){
+    public void testBuildingOfVertexMap() {
         CheckingCable checkingCable = new CheckingCable(2, 1, Collections.singletonList(new Command(1, 2, "make", 20)));
         checkingCable.go();
         Map<Integer, Vertex> vertexMap = checkingCable.getVertexMap();
@@ -56,7 +57,7 @@ public class CheckingCableTests {
     }
 
     @Test
-    public void testMakeCommand(){
+    public void testMakeCommand() {
         CheckingCable checkingCable = new CheckingCable(2, 1, Collections.singletonList(new Command(1, 2, "make", 20)));
         checkingCable.go();
         Map<Integer, Vertex> vertexMap = checkingCable.getVertexMap();
@@ -68,7 +69,7 @@ public class CheckingCableTests {
     }
 
     @Test
-    public void testMultipleMakeCommands(){
+    public void testMultipleMakeCommands() {
         CheckingCable checkingCable = new CheckingCable(5, 6, Arrays.asList(new Command(1, 2, "make", 5), new Command(2, 3, "make", 9),
                 new Command(1, 3, "make", 8), new Command(1, 4, "make", 1), new Command(4, 5, "make", 1), new Command(5, 3, "make", 1)));
         checkingCable.go();
@@ -94,5 +95,26 @@ public class CheckingCableTests {
         Vertex vertex5 = vertexMap.get(5);
         assertNotNull(vertex5);
         assertEquals(vertex5.getOutboundEdges().size(), 1);
+    }
+
+    @Test
+    public void testCheckCommand() {
+        CheckingCable checkingCable = new CheckingCable(5, 7, Arrays.asList(new Command(1, 2, "make", 5), new Command(2, 3, "make", 9),
+                new Command(1, 3, "make", 8), new Command(1, 4, "make", 1), new Command(4, 5, "make", 1), new Command(5, 3, "make", 1),
+                new Command(1, 3, "check", 3)));
+        List<String> output = checkingCable.go();
+        assertEquals(output.size(), 1);
+        assertEquals(output.get(0), "YES");
+    }
+
+    @Test
+    public void testMultipleCheckCommands() {
+        CheckingCable checkingCable = new CheckingCable(6, 8, Arrays.asList(new Command(1, 2, "make", 5), new Command(2, 3, "make", 9),
+                new Command(1, 3, "make", 8), new Command(1, 4, "make", 1), new Command(4, 5, "make", 1), new Command(5, 3, "make", 1),
+                new Command(1, 3, "check", 3), new Command(1, 6, "check", 3)));
+        List<String> output = checkingCable.go();
+        assertEquals(output.size(), 2);
+        assertEquals(output.get(0), "YES");
+        assertEquals(output.get(1), "NO");
     }
 }
