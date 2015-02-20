@@ -19,6 +19,10 @@ public class CheckingCable {
             throw new RuntimeException("number of commands has to be Q(1≦Q≦500)");
         }
         this.numberOfCommands = numberOfCommands;
+
+        if(numberOfCommands != commandList.size()){
+            throw new RuntimeException("size of the command list doesn't match the numberOfCommands parameter");
+        }
         this.commandList = Collections.unmodifiableList(commandList);
     }
 

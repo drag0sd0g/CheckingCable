@@ -7,10 +7,10 @@ public class Command {
     private final Instruction instruction;
     private final double time;
 
-    public Command(String computerA, String computerB, Instruction instruction, double time) {
+    public Command(String computerA, String computerB, String instruction, double time) {
         this.computerA = computerA;
         this.computerB = computerB;
-        this.instruction = instruction;
+        this.instruction = Instruction.fromString(instruction);
         this.time = time;
     }
 
