@@ -85,20 +85,19 @@ public class CheckingCable {
         Vertex vertexTarget = vertexMap.get(command.getComputerB());
         Edge edge = new Edge(vertexTarget, command.getTime());
         vertexOrigin.addOutboundEdge(edge);
+        computePaths(vertexOrigin);
     }
 
     private void doCheckCommand(Command command, List<String> outputCollector) {
         Vertex vertexOrigin = vertexMap.get(command.getComputerA());
         Vertex vertexTarget = vertexMap.get(command.getComputerB());
-
         computePaths(vertexOrigin);
-
         List<Vertex> path = new ArrayList<>();
         for (Vertex vertex = vertexTarget; vertex != null; vertex = vertex.getPrevious()) {
             path.add(vertex);
         }
 
-        outputCollector.add((path.contains(vertexTarget) &&  path.contains(vertexOrigin)) ? "YES" : "NO");
+        outputCollector.add((path.contains(vertexTarget) && path.contains(vertexOrigin) && vertexTarget.getMinDistance() <= command.getTime()) ? "YES" : "NO");
     }
 
     protected Map<Integer, Vertex> getVertexMap() {

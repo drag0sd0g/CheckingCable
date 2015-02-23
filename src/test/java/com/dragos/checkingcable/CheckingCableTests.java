@@ -101,7 +101,7 @@ public class CheckingCableTests {
     public void testCheckCommand() {
         CheckingCable checkingCable = new CheckingCable(5, 7, Arrays.asList(new Command(1, 2, "make", 5), new Command(2, 3, "make", 9),
                 new Command(1, 3, "make", 8), new Command(1, 4, "make", 1), new Command(4, 5, "make", 1), new Command(5, 3, "make", 1),
-                new Command(1, 3, "check", 3)));
+                new Command(1, 3, "check", 4)));
         List<String> output = checkingCable.go();
         assertEquals(output.size(), 1);
         assertEquals(output.get(0), "YES");
@@ -111,10 +111,21 @@ public class CheckingCableTests {
     public void testMultipleCheckCommands() {
         CheckingCable checkingCable = new CheckingCable(6, 8, Arrays.asList(new Command(1, 2, "make", 5), new Command(2, 3, "make", 9),
                 new Command(1, 3, "make", 8), new Command(1, 4, "make", 1), new Command(4, 5, "make", 1), new Command(5, 3, "make", 1),
-                new Command(1, 3, "check", 3), new Command(1, 6, "check", 3)));
+                new Command(1, 3, "check", 4), new Command(1, 6, "check", 0)));
         List<String> output = checkingCable.go();
         assertEquals(output.size(), 2);
         assertEquals(output.get(0), "YES");
         assertEquals(output.get(1), "NO");
+    }
+
+    @Test
+    public void testAlternatingMakesAndChecks(){
+        CheckingCable checkingCable = new CheckingCable(3, 5, Arrays.asList(new Command(1, 2, "make", 1000), new Command(1, 3, "check", 500),
+                new Command(2, 3, "make", 2000), new Command(1, 3, "check", 3500), new Command(1, 3, "check", 1500)));
+        List<String> output = checkingCable.go();
+        assertEquals(output.size(), 3);
+        assertEquals(output.get(0), "NO");
+        assertEquals(output.get(1), "YES");
+        assertEquals(output.get(2), "NO");
     }
 }
